@@ -9,7 +9,7 @@ This guide shows all of the steps I took for completing each task while preparin
 ### to select the rescue kernel, and then press `e` to enter edit mode.
 
 ### Append to the end of the line beginning with `linux`
-systemd.unit=multi-user.target rd.break enforcing=0
+rd.break
 
 ### Ctrl-x to boot into rescue mode
 ### Enter
@@ -17,10 +17,10 @@ mount -o rw,remount /sysroot
 chroot /sysroot
 passwd root
 ### password twice
-### Ctrl-d twice (just hold ctrl and tap d twice) to fully boot
+exit
+exit
 
 ### Login
-restorecon /etc/shadow
 systemctl set-default multi-user
 systemctl reboot
 ```
@@ -29,6 +29,8 @@ systemctl reboot
 
 #### **Solution to Task 2**
 ```
+You can complete this task using below commands/steps or use 'nmtui' gui tool.
+
 ### On server1:
 nmcli con show
 
@@ -1123,5 +1125,160 @@ The last thing we need to do is to update the firewall (as root):
 firewall-cmd --add-port=8000/tcp --permanent
 firewall-cmd --reload
 ```
+
+##Extra tasks:
+
+**43.** On server1, create a user steve with no access to an interactive shell and uid 1111.
+
+#### **Solution to Task 43**
+``` 
+useradd -s /sbin/nologin -u 1111 steve
+```
+
+**44.** On server1, remove manny from dba_admin group.
+
+#### **Solution to Task 44**
+``` 
+gpasswd -d manny dba_group
+```
+
+**45.** On server1, create a group collaboration and add cindy, manny and mo to it. Copy cindy's home directory to /home/share and make sure that all users of collaboration group have rwx permissions on all existing a new files/directories. 
+
+#### **Solution to Task 45**
+``` 
+groupadd collaboration
+usermod -G collaboration cindy
+usermod -G collaboration manny
+usermod -G collaboration mo
+cp -r /home/cindy /home/share
+chown root:collaboration /home/share
+chmod 770 -R /home/share
+setfacl -Rm d:g:collaboration:rwx,g:collaboration:rwx /home/share
+chmod g+s,+t /home/share
+```
+
+**46.** Export /home/share be a nfs share on server1 and mount it on server2 under /mnt/nfs_share. 
+
+#### **Solution to Task 46**
+
+On server1:
+``` 
+dnf install -y nfs* rpcbind 
+echo "/home/share 192.168.55.72:(rw,sync,no_root_squash)" >> /etc/exports
+systemctl enable --now nfs-server rpcbind
+firewalld --add-service=nfs,rpc-bind,mountd --permanent
+firewalld --add-port=2049/tcp --permanent
+firewalld --reload
+```
+On server2:
+``` 
+dnf install -y nfs* rpcbind
+showmount 192.168.55.71 - to show the mounts
+mkdir -p /mnt/nfs_share
+echo "192.168.55.71:/home/share /mnt/nfs_share nfs defaults,_netdev 0 0" >> /etc/fstab
+systemctl daemon-reload
+systemctl enable --now nfs-server rpcbind
+mount -a
+```
+
+
+**47.** On server2, disable user cindy to create a cronjob.
+
+#### **Solution to Task 47**
+```
+dnf install -y cronie
+systemctl enable --now crond
+echo "cindy" >> /etc/cron.deny
+```
+
+**48.** On server1, create a tar w/bzip2 archive of /usr/share/doc called doc_archive.tar.bz2 in the /archives directory.
+
+#### **Solution to Task 48**
+```
+dnf install -y tar bzip2
+tar -cjvf /archives/doc_archive.tar.bz2 /usr/share/doc
+```
+
+**49.**  On server1, by default user mo should create files with default permissions -r--------  and directories with dr-x------ as default permission.
+
+#### **Solution to Task 49**
+```
+vi ./bash_profile
+umask 277;/bin/mkdir $1;umask 377;
+```
+
+**50.** On server2, create a swap file out of /swapfile and make it be a persistent.
+
+#### **Solution to Task 50**
+```
+dd if /dev/zero of=/moreswap_file bs=1024 count=65536
+mkswap /swapfile
+chmod 600 /swapfile
+echo "/swapfile none swap defaults 0 0" >> /etc/fstab
+systemctl daemon-reload
+swapon -a 
+free -h 
+```
+
+**51.** On server2, set sebool httpd_can_sendmail to on.
+
+#### **Solution to Task 51**
+```
+setsebool -p httpd_can_sendmail on
+```
+
+**52.** On server1, create a file and give only user jack read permissions. The owner of this files should be root:root.
+
+#### **Solution to Task 52**
+```
+touch /root/jack_can_read.txt
+chown root:root /root/jack_can_read.txt
+chmod 770 /root/jack_can_read.txt
+setfacl -m d:u:jack"r--;u:jack:r-- /root/jack_can_read.txt
+```
+
+**53.** On server2, download youtube-dl package /root and install it from rpm.
+
+#### **Solution to Task 53**
+```
+dnf install --downloadonly --downloaddir /root youtube-dl
+dbf install /root/youtube-dl...rpm
+```
+
+**54.** On server1, set tuning to dynamic.
+
+#### **Solution to Task 54**
+```
+dnf install -y tuned
+vi /etc/tuned/tuned-main.conf -  and modify dynamic_tuning=0 -> dynamic_tuning=1
+systemctl enable --now tuned
+```
+
+**55.** Configure persistent journal logs on server2.
+
+#### **Solution to Task 55**
+```
+vi /etc/systemd/journal.conf -  and set storage=auto
+mkdir -p /var/log/journal
+journalctl --flush
+```
+
+**56.** On server 2, change default kernel to 1.
+
+#### **Solution to Task 56**
+```
+grubby --info=ALL - list all kernels
+grubby --set-default-index=1
+```
+
+**57.** On server 1, install php 7.4/devel using application streams(module).
+
+#### **Solution to Task 57**
+```
+dnf module php - lists available versions of php
+dbf module install php:7.4/devel
+```
+
+
 
 Congratulations!!! You're ready for your RHCSA 9 exam!
