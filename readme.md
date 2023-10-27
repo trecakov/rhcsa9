@@ -1,5 +1,5 @@
 # RHCSA v9 Preparation
-This repository contains my notes on all objectives and practice situation for this exam.
+This is a fork from aggressiveHiker/rhcsa9 repository that contains my notes on all objectives and an extended list of practice tasks for this exam.
 
 ## Content
 The repository is broken into three main areas:
