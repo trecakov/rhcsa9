@@ -1,5 +1,3 @@
-# Ordered Task List
-This task list is written so all dependencies are covered in order. There might be one or two gotchas in there, but nothing should require redoing.
 
 **1.** Break into server2 and set the password as `password`. Set the target as multi-user and make sure it boots into that automatically. Reboot to confirm.
 
@@ -29,6 +27,14 @@ jack:1012:dba_intern,dba_staff
 marcia:1013:it_staff,it_managers
 jan:1014:dba_admin,dba_staff
 cindy:1015:dba_intern,dba_staff
+```
+```
+dba_admin:5010
+dba_managers:5011
+dba_staff:5012
+dba_intern:5013
+it_staff:5014
+it_managers:5015
 ```
 
 **12.** Secure copy the shell scripts to server2 and perform the same functions.
@@ -107,3 +113,38 @@ Add quiet to the end of the GRUB_CMDLINE_LINUX line
 **42.** On server1, as the user `cindy`, create a container image from http://192.168.55.47/containers/Containerfile with the tag `web_image`.
 
 **43.** From the newly created image, deploy a container as a service with the container name `cindy_web`. The web config files should map to ~/web_files, and the local port of 8000 should be mapped to the container's port 80. Create a default page that says "Welcome to Cindy's Web Server!". The service should be enabled and the website should be accessible.
+
+##Extra tasks:
+
+**43.** On server1, create a user steve with no access to an interactive shell and uid 1111.
+
+**44.** On server1, remove manny from dba_admin group.
+
+**45.** On server1, create a group collaboration and add cindy, manny and mo to it. Copy cindy's home directory to /home/share and make sure that all users of collaboration group have rwx permissions on all existing a new files/directories. 
+
+**46.** Export /home/share be a nfs share on server1 and mount it on server2 under /mnt/nfs_share.
+
+**47.** On server2, disable user cindy to create a cronjob.
+
+**48.** On server1, create a tar w/bzip2 archive of /usr/share/doc called doc_archive.tar.bz2 in the /archives directory.
+
+**49.**  On server1, by default user mo should create files with default permissions -r--------  and directories with dr-x------ as default permission.
+
+**50.** On server2, create a swap file out of /swapfile and make it be a persistent.
+
+**51.** On server2, set sebool httpd_can_sendmail to on.
+
+**52.** On server1, create a file and give only user jack read permissions. The owner of this files should be root:root.
+
+**53.** On server2, download youtube-dl package /root and install it from rpm.
+
+**54.** On server1, set tuning to dynamic.
+
+**55.** Configure persistent journal logs on server2.
+
+**56.** On server 2, change default kernel to 1.
+
+**57.** On server 1, install php 7.4/devel using application streams(module).
+
+
+
