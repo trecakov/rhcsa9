@@ -33,124 +33,124 @@
 	- `sftp username@hostname` - sftp protocol, type `?` after connection for help
 	
 	For help on how to use these tools and their flags, type:
-	`ssh-keygen --help` 
-	`ssh-copy-id --help`
-	`ssh --help`
-	`scp --help` 
-	`sftp --help`
+	- `ssh-keygen --help` 
+	- `ssh-copy-id --help`
+	- `ssh --help`
+	- `scp --help` 
+	- `sftp --help`
 	
 - Log in and switch users in multi-user targets
-	`su user` - log in to an interactive shell(.bashrs)
-	`su - user` - log in to a login shell(.bash_profile)
+	- `su user` - log in to an interactive shell(.bashrs)
+	- `su - user` - log in to a login shell(.bash_profile)
 	
 - Archive, compress, unpack, and uncompress files using tar, star, gzip, and bzip2 
-	`tar --help`
+	- `tar --help`
 	
 	examples:
-	`tar -cf helloworld.tar hello world` - archive hello and world files/directories to helloworld.tar
-	`tar -tvf helloworld.tar` - list files in helloworld.tar
-	`tar -xf helloworld.tar` - extract files in helloworld.tar archive
-	`tar -czvf helloworld.tar.gz hello world` - archive and compress hello and world files/directories to helloworld.tar.gz
-	`tar -zxvf helloworld.tar.gz` - uncompress and unarchive helloworld.tar.gz
-	`tar -cjvf helloworld.tar.bz2 hello world` - archive and compress hello and world files/directories to helloworld.tar.bz2
+	- `tar -cf helloworld.tar hello world` - archive hello and world files/directories to helloworld.tar
+	- `tar -tvf helloworld.tar` - list files in helloworld.tar
+	- `tar -xf helloworld.tar` - extract files in helloworld.tar archive
+	- `tar -czvf helloworld.tar.gz hello world` - archive and compress hello and world files/directories to helloworld.tar.gz
+	- `tar -zxvf helloworld.tar.gz` - uncompress and unarchive helloworld.tar.gz
+	- `tar -cjvf helloworld.tar.bz2 hello world` - archive and compress hello and world files/directories to helloworld.tar.bz2
 	
-	`star --help`
-	
-	examples:
-	`star -c -f=archive.tar file1 file2` - archive file1 and file 2 into archive.tar
-	`star -x -f=archive.tar` - unarchive
-	`star -cv -bz -f=/arhive.star.bz2 /usr/docs` - archive and compress uzing bzip2
-	
-	`gzip --help`
+	- `star --help`
 	
 	examples:
-	`gzip archive.tar` - compress to archive.tar.gz
-	`gzip -d file.tar.gz` - uncompress to archive.tar
+	- `star -c -f=archive.tar file1 file2` - archive file1 and file 2 into archive.tar
+	- `star -x -f=archive.tar` - unarchive
+	- `star -cv -bz -f=/arhive.star.bz2 /usr/docs` - archive and compress uzing bzip2
 	
-	`bzip --help`
+	- `gzip --help`
 	
 	examples:
-	`bzip archive.star` - compress to archive.tar.gz
+	- `gzip archive.tar` - compress to archive.tar.gz
+	- `gzip -d file.tar.gz` - uncompress to archive.tar
+	
+	- `bzip --help`
+	
+	examples:
+	- `bzip archive.star` - compress to archive.tar.gz
 	
 	You will probably need to install star and bzip2 packages:
-	`dnf install star bzip2`
+	- `dnf install star bzip2`
 
 - Create and edit text files 
-	`touch file.txt` - create a text file
-	`vi file.txt` or `vim file.txt` - open a file.txt via vi or vim editors
+	- `touch file.txt` - create a text file
+	- `vi file.txt` or `vim file.txt` - open a file.txt via vi or vim editors
 
 	Some vi/vim commands:
 
-	i — Switch to Insert mode.
-	Esc — Switch to Command mode.
-	:w — Save and continue editing.
-	:wq or ZZ — Save and quit/exit vi.
-	:q! — Quit vi and do not save changes.
-	yy — Yank (copy) a line of text.
-	p — Paste a line of yanked text below the current line.
-	o — Open a new line under the current line.
-	O — Open a new line above the current line.
-	A — Append to the end of the line.	
-	a — Append after the cursor’s current position.
-	I — Insert text at the beginning of the current line.
-	b — Go to the beginning of the word.
-	e — Go to the end of the word.
-	x — Delete a single character.
-	dd — Delete an entire line.
-	Xdd — Delete X number of lines.
-	Xyy — Yank X number of lines.
-	G — Go to the last line in a file.
-	XG — Go to line X in a file.
-	gg — Go to the first line in a file.
-	:num — Display the current line’s line number.
-	h — Move left one character.
-	j — Move down one line.
-	k — Move up one line.
-	l — Move right one character.
+	- `i` — Switch to Insert mode.
+	- `Esc` — Switch to Command mode.
+	- `:w` — Save and continue editing.
+	- `:wq or ZZ` — Save and quit/exit vi.
+	- `:q!` — Quit vi and do not save changes.
+	- `yy` — Yank (copy) a line of text.
+	- `p` — Paste a line of yanked text below the current line.
+	- `o` — Open a new line under the current line.
+	- `O` — Open a new line above the current line.
+	- `A` — Append to the end of the line.	
+	- `a` — Append after the cursor’s current position.
+	- `I` — Insert text at the beginning of the current line.
+	- `b` — Go to the beginning of the word.
+	- `e` — Go to the end of the word.
+	- `x` — Delete a single character.
+	- `dd` — Delete an entire line.
+	- `Xdd` — Delete X number of lines.
+	- `Xyy` — Yank X number of lines.
+	- `G` — Go to the last line in a file.
+	- `XG` — Go to line X in a file.
+	- `gg` — Go to the first line in a file.
+	- `:num` — Display the current line’s line number.
+	- `h` — Move left one character.
+	- `j` — Move down one line.
+	- `k` — Move up one line.
+	- `l` — Move right one character.
 
 	For more info visit: https://www.redhat.com/sysadmin/introduction-vi-editor
 
 - Create, delete, copy, and move files and directories 
-	`mkdir -p /mnt/testdir` - create a directory called testdir in /mnt directory
-	`mkdir -p /mnt/testdir{1,2,3,4} - create a directories called testdir1, testdir2, testdir3, testdir4 in /mnt directory
-	`touch test.txt testmove.txt` - create two text files called test.txt and testmove.txt
-	`cp -r /mnt/testdir /tmp` - copy a directory testdir to /tmp
-	`cp test.txt /mnt/testdir` - copy a test.txt file to /mnt/testdir
-	`mv testmove.txt /mnt/testdir` - move testmove.txt to /mnt/testdir
+	- `mkdir -p /mnt/testdir` - create a directory called testdir in /mnt directory
+	- `mkdir -p /mnt/testdir{1,2,3,4} - create a directories called testdir1, testdir2, testdir3, testdir4 in /mnt directory
+	- `touch test.txt testmove.txt` - create two text files called test.txt and testmove.txt
+	- `cp -r /mnt/testdir /tmp` - copy a directory testdir to /tmp
+	- `cp test.txt /mnt/testdir` - copy a test.txt file to /mnt/testdir
+	- `mv testmove.txt /mnt/testdir` - move testmove.txt to /mnt/testdir
 
 - Create hard and soft links 
 	HardLink - same inode number; on;y for files and not directories
-	`ln sourcefile linkfile` 
+	- `ln sourcefile linkfile` 
 	SoftLink - different inode number; both for files and directories
-	`ln -s source link`
+	- `ln -s source link`
 	
 	To verify:
-	`ls -li source/link`
+  	- `ls -li source/link`
 
 - List, set, and change standard ugo/rwx permissions 
-	`ls --help` 
-	`ls -lah` - will display all files and directories with their permissions, one per line in the present working directory
+	- `ls --help` 
+	- `ls -lah` - will display all files and directories with their permissions, one per line in the present working directory
 	
-	`chmod --help` 
-	`chown --help`
-	
+	- `chmod --help` 
+	- `chown --help`
+```	
 				symbol	octal 
 	read		r		4
-	write		w   	2
+	write		w   	        2
 	executre	x  	 	1
 	
 	user(u)		group(g)	other(o)
 	rwx 		rwx			rwx
-	
+```	
 	For more info visit: https://www.redhat.com/sysadmin/manage-permissions
 	
 
-- Locate, read, and use system documentation including man, info, and files in /usr/share/doc 
-	`man httpd` - man pages on httpd
-	`info httpd` - get info pages on httpd
-	`man 8 httpd.socket` - get man page 8 on httpd.socket
-	`whatis httpd` - more info about httpd
-	`apropos httpd` - more info about httpd
+- Locate, read, and use system documentation including man, info, and files in `/usr/share/doc` 
+	- `man httpd` - man pages on httpd
+	- `info httpd` - get info pages on httpd
+	- `man 8 httpd.socket` - get man page 8 on httpd.socket
+	- `whatis httpd` - more info about httpd
+	- `apropos httpd` - more info about httpd
 
 ### Create simple shell scripts 
 - Conditionally execute code (use of: if, test, [], etc.) 
