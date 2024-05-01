@@ -112,7 +112,7 @@
 
 - Create, delete, copy, and move files and directories 
 	- `mkdir -p /mnt/testdir` - create a directory called testdir in /mnt directory
-	- `mkdir -p /mnt/testdir{1,2,3,4} - create a directories called testdir1, testdir2, testdir3, testdir4 in /mnt directory
+	- `mkdir -p /mnt/testdir{1,2,3,4}` - create a directories called testdir1, testdir2, testdir3, testdir4 in /mnt directory
 	- `touch test.txt testmove.txt` - create two text files called test.txt and testmove.txt
 	- `cp -r /mnt/testdir /tmp` - copy a directory testdir to /tmp
 	- `cp test.txt /mnt/testdir` - copy a test.txt file to /mnt/testdir
@@ -247,7 +247,7 @@ find /usr/share -type f -size -1M -exec cp{} /root/myfiles \;
 	1. When you reboot the server and grub2 boot screen comes up, move down arrow to the rescue kernel and press `e`. Then follow the rest of above steps.
 	2. Second solution:
 		1. When you reboot the server and grub2 boot screen comes up, press `e`
-		2. Go to the end of the line that starts with `linux` and add `init=/bin/bash`, also change ro -> rw on the same line.
+		2. Go to the end of the line that starts with `linux` and add `init=/bin/bash`, also change `ro` -> `rw` on the same line.
 		3. Press `Ctrl+x`
 		4. `passwd root`
 		5. `touch /.autorelabel`
@@ -275,8 +275,8 @@ find /usr/share -type f -size -1M -exec cp{} /root/myfiles \;
 	- `tuned-adm profile virtual-guest powersave` - changes active profile to multiprofile virtual-guest and powersave
 	
 	To configure the dynamic tuning profile:
-	1. change a dynamic_tuning value to 1 in /etc/tuned/tuned-main.conf
-	2. restart the tuned service
+	1. change a dynamic_tuning value to 1 in `/etc/tuned/tuned-main.conf`
+	2. `systemctl restart tuned` - restart the tuned service
 	
 - Locate and interpret system log files and journals 
 	- `journalctl --help`
@@ -342,7 +342,7 @@ find /usr/share -type f -size -1M -exec cp{} /root/myfiles \;
 	- Extending swap by creating a fdisk partition:
 	- `fdisk /dev/sdb`
 	 1. `n` - new partition
-	 2. Enter for defaults
+	 2. `Enter`- for defaults
 	 3. `t` - change partition type
 	 4. `L` - list partition hex
 	 5. `82` - for swap type
@@ -351,7 +351,7 @@ find /usr/share -type f -size -1M -exec cp{} /root/myfiles \;
 	 7. `mkswap -L more_swap /dev/sdb1` - make swap with label `more_swap`
 	 8. `swapon /dev/sdb1` - mount swap
 	 9. `swapon` - to check if new swap partition show as mounted
-	 10. `LABEL="more_swap"  none   swap     defaults        0       0` - add this line to /etc/fstab
+	 10. `LABEL="more_swap"  none   swap     defaults        0       0` - add this line to `/etc/fstab`
 	 
 ### Create and configure file systems 
 - Create, mount, unmount, and use vfat, ext4, and xfs file systems 
@@ -371,20 +371,20 @@ find /usr/share -type f -size -1M -exec cp{} /root/myfiles \;
  	/exports/web_data1 127.0.0.1(rw,sync,no_root_squash)
 	/exports/web_data2 127.0.0.1(rw,sync,no_root_squash)
 	```
-	`systemctl enable --now nfs-server` - enable and start nfs-server
-	`showmounts -e` - show export mounts
-	`firewalld --add-service=nfs,rpc-bind,mountd --permanent` - add/open services to the firewalld
-	`firewalld --add-port=2049/tcp --permanent` - open port 2049 
-	`mkdir /mnt/nfs_web_data{1,2}` - create mount directories
-	`echo "127.0.0.1:/exports/web_data1 /mnt/nfs_web_data1 nfs defaults,_netdev 0 0" >> /etc/fstab` - adding mount point to fstab
-	`echo "127.0.0.1:/exports/web_data2 /mnt/nfs_web_data2 nfs defaults,_netdev 0 0" >> /etc/fstab` - adding mount point to fstab
-	`mount -a` - mount all
+	- `systemctl enable --now nfs-server` - enable and start nfs-server
+	- `showmounts -e` - show export mounts
+	- `firewalld --add-service=nfs,rpc-bind,mountd --permanent` - add/open services to the firewalld
+	- `firewalld --add-port=2049/tcp --permanent` - open port 2049 
+	- `mkdir /mnt/nfs_web_data{1,2}` - create mount directories
+	- `echo "127.0.0.1:/exports/web_data1 /mnt/nfs_web_data1 nfs defaults,_netdev 0 0" >> /etc/fstab` - adding mount point to fstab
+	- `echo "127.0.0.1:/exports/web_data2 /mnt/nfs_web_data2 nfs defaults,_netdev 0 0" >> /etc/fstab` - adding mount point to fstab
+	- `mount -a` - mount all
 	
 - Configure autofs 
-	`dnf install nfs-* rpc-bind autofs-y` - install nfs-*, rpc-bind and autofs packages
-	`vi /etc/auto.master` and add `/export/home /etc/auto.home` before the last line.
-	`echo "* 127.0.0.1:/home/&" >> /etc/auto.home`
-	`systemctl enable --now autofs rpc-bind`
+	- `dnf install nfs-* rpc-bind autofs-y` - install nfs-*, rpc-bind and autofs packages
+	- `vi /etc/auto.master` and add `/export/home /etc/auto.home` before the last line.
+	- `echo "* 127.0.0.1:/home/&" >> /etc/auto.home`
+	- `systemctl enable --now autofs rpc-bind`
 
 - Extend existing logical volumes 
 	- `pvresize /dev/sdd` - if pv needs to be grown
@@ -452,13 +452,13 @@ find /usr/share -type f -size -1M -exec cp{} /root/myfiles \;
 
 - Modify the system bootloader 
 	- `vi /etc/default/grub` - file to modify the system bootloader
-	- `grub2-mkconfig -o /boot/grub2/grub.cfg
+	- `grub2-mkconfig -o /boot/grub2/grub.cfg`
 
 ### Manage basic networking 
 - Configure IPv4 and IPv6 addresses 
 	- `nmcli con show` - show connections
-	- `nmcli con mod ens192 ipv4.method "manual" ipv4 "192.168.10.240/24" ipv4.dns "192.168.10.145,8.8.8.8" ipv4.dns-search "testhostname.com" ipv4.gateway "192.168.10.1" ipv4.may-fail "no"
-	- `nmcli con mod ens192 ipv6.method "manual" ipv6 "2002:c0a8:a01:0:0:0:0:0164" ipv6.may-fail "yes"
+	- `nmcli con mod ens192 ipv4.method "manual" ipv4 "192.168.10.240/24" ipv4.dns "192.168.10.145,8.8.8.8" ipv4.dns-search "testhostname.com" ipv4.gateway "192.168.10.1" ipv4.may-fail "no"`
+	- `nmcli con mod ens192 ipv6.method "manual" ipv6 "2002:c0a8:a01:0:0:0:0:0164" ipv6.may-fail "yes"`
 	- `nmcli con down ens192` - bring connection ens192 down
 	- `nmcli con up ens192` - bring connection ens192 up
 	
