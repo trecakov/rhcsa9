@@ -137,7 +137,7 @@
 				symbol	octal 
 	read		r		4
 	write		w   	        2
-	executre	x  	 	1
+	execute		x  	 	1
 	
 	user(u)		group(g)	other(o)
 	rwx 		rwx		rwx
@@ -245,7 +245,7 @@ find /usr/share -type f -size -1M -exec cp{} /root/myfiles \;
 	
 	These steps work for most RHEL versions besides 9.0. So if you are trying to do this on RHEL 9.0 there are 2 solutions.
 	1. When you reboot the server and grub2 boot screen comes up, move down arrow to the rescue kernel and press `e`. Then follow the rest of above steps.
-	2. Second solutions:
+	2. Second solution:
 		1. When you reboot the server and grub2 boot screen comes up, press `e`
 		2. Go to the end of the line that starts with `linux` and add `init=/bin/bash`, also change ro -> rw on the same line.
 		3. Press `Ctrl+x`
@@ -274,7 +274,7 @@ find /usr/share -type f -size -1M -exec cp{} /root/myfiles \;
 	- `tuned-adm profile virtual-guest` - changes active profile to virtual-guest
 	- `tuned-adm profile virtual-guest powersave` - changes active profile to multiprofile virtual-guest and powersave
 	
-	To configure dynamic tuning profile:
+	To configure the dynamic tuning profile:
 	1. change a dynamic_tuning value to 1 in /etc/tuned/tuned-main.conf
 	2. restart the tuned service
 	
@@ -293,7 +293,7 @@ find /usr/share -type f -size -1M -exec cp{} /root/myfiles \;
 	- `systemctl start/stop/restart/status NetworkManager`
 	
 - Securely transfer files between systems 
-	- `scp username@hostame:/path/to/file.txt /location/on/local/machine` - secure copy from remote machine to a local server
+	- `scp username@hostame:/path/to/file.txt /location/on/local/machine` - secure copy from the remote machine to a local server
 	- `scp /location/on/local/machine/file.txt username@hostame:/location/on/remote/machine` - secure copy from local machine to a remote server
 	- `sftp username@hostname` - sftp protocol, type `?` after connection for help
 	- `scp --help` 
@@ -302,7 +302,7 @@ find /usr/share -type f -size -1M -exec cp{} /root/myfiles \;
 ### Configure local storage 
 - List, create, and delete partitions on GPT/MBR disks 
 	- fdisk(MBR) - used to create a master boot record-based partitions. Only 4 MBR partitions are able to be created on the system.
-	- gdisk(GPT) - used to create GPT partitions. Unlimited number of GPT partitons on the system.
+	- gdisk(GPT) - used to create GPT partitions. An unlimited number of GPT partitons on the system.
 	
 	- `fdisk -l` - lists all disks with a lot of info
 	- `lsblk -f` - info about disks, uuids, mountpoints, and fstypes.
@@ -355,21 +355,22 @@ find /usr/share -type f -size -1M -exec cp{} /root/myfiles \;
 	 
 ### Create and configure file systems 
 - Create, mount, unmount, and use vfat, ext4, and xfs file systems 
-	`mkfs.ext4 /dev/sdc1` - create ext4 on /dev/sdc1
-	`mkfs.vfat /dev/sdc2` - create vfat on /dev/sdc2
-	`mkfs.xfs /dev/sdc3` - create xfs on /dev/sdc3
+	- `mkfs.ext4 /dev/sdc1` - create ext4 on /dev/sdc1
+	- `mkfs.vfat /dev/sdc2` - create vfat on /dev/sdc2
+	- `mkfs.xfs /dev/sdc3` - create xfs on /dev/sdc3
 	
 	To resize fs:
-	`xfs.grows /dev/mapper/vg_name-lv_name` - for xfs
-	`resize2fs /dev/mapper/vg_name-lv_name` - for ext4 and vfat
+	- `xfs.grows /dev/mapper/vg_name-lv_name` - for xfs
+	- `resize2fs /dev/mapper/vg_name-lv_name` - for ext4 and vfat
 	
 - Mount and unmount network file systems using NFS 
-	`dnf install nfs-* rpc-bind -y` - install nfs-* and rpc-bind packages
-	`mkdir /exports/web_data{1,2}` - create directories to be exported
-	`vi /etc/exports`
-	/exports/web_data1 127.0.0.1(rw,sync,no_root_squash)
+	- `dnf install nfs-* rpc-bind -y` - install nfs-* and rpc-bind packages
+	- `mkdir /exports/web_data{1,2}` - create directories to be exported
+	- `vi /etc/exports`
+	```
+ 	/exports/web_data1 127.0.0.1(rw,sync,no_root_squash)
 	/exports/web_data2 127.0.0.1(rw,sync,no_root_squash)
-	
+	```
 	`systemctl enable --now nfs-server` - enable and start nfs-server
 	`showmounts -e` - show export mounts
 	`firewalld --add-service=nfs,rpc-bind,mountd --permanent` - add/open services to the firewalld
@@ -386,167 +387,168 @@ find /usr/share -type f -size -1M -exec cp{} /root/myfiles \;
 	`systemctl enable --now autofs rpc-bind`
 
 - Extend existing logical volumes 
-	`pvresize /dev/sdd` - if pv needs to be grown
-	`lvextend --resize -L+3G /dev/mapper/db_storate-database` - grows the lv by 3G and resizes the filesystem
+	- `pvresize /dev/sdd` - if pv needs to be grown
+	- `lvextend --resize -L+3G /dev/mapper/db_storate-database` - grows the lv by 3G and resizes the filesystem
 
 - Create and configure set-GID directories for collaboration
-	`groupadd marketing_team` - create group
-	`for i in manny mo jack; do useradd -m -G marketing_team $1;done` - for look to add users and assign them a group
-	`mkdir /home/marketing_dir` - create shared directory
-	`chown root:marketing_team /home/marketing_dir` - set ownership to root:marketing_team
-	`chmod 770 /home/marketing_dir` - set rwx permisssions for user and group
-	`chmod g+s,+t /home/marketing_dir` - set GID and sticky bit(no one can delete files that are not owned by them)
+	- `groupadd marketing_team` - create group
+	- `for i in manny mo jack; do useradd -m -G marketing_team $1;done` - for look to add users and assign them a group
+	- `mkdir /home/marketing_dir` - create shared directory
+	- `chown root:marketing_team /home/marketing_dir` - set ownership to root:marketing_team
+	- `chmod 770 /home/marketing_dir` - set rwx permisssions for user and group
+	- `chmod g+s,+t /home/marketing_dir` - set GID and sticky bit(no one can delete files that are not owned by them)
 	
 - Diagnose and correct file permission problems 
 
 ### Deploy, configure, and maintain systems
 - Schedule tasks using at and cron 
-	at - one time job
-	cron - reocurring job
+	- at - one time job
+	- cron - reocurring job
 	
-	`dnf install at cronie -y` - install at and cronie packages
-	`systemctl enable --now atd crond` - enable and start atd and crond services
-	`at 20:00` - schedule at job at 20:00
-	 at> `command` - command to run
-	 at> `ctrl+d` - ctrl+d to exit
+	- `dnf install at cronie -y` - install at and cronie packages
+	- `systemctl enable --now atd crond` - enable and start atd and crond services
+	- `at 20:00` - schedule at job at 20:00
+	- at> `command` - command to run
+	- at> `ctrl+d` - ctrl+d to exit
 	
-	`at now +7 days`
-	 at> `command`
-	 at> `ctrl+d` 
+	- `at now +7 days`
+	- at> `command`
+	- at> `ctrl+d` 
 	 
-	`vi /etc/crontab` - you can see cronjob syntax and here you should add your job if it should run as root
-	`crontab -l user` - lists cronjobs by that user
-	`crontab -e user` - edit existing or add new cronjob
+	- `vi /etc/crontab` - you can see cronjob syntax and here you should add your job if it should run as root
+	- `crontab -l user` - lists cronjobs by that user
+	- `crontab -e user` - edit existing or add new cronjob
 	
 - Start and stop services and configure services to start automatically at boot 
-	`systemctl start/stop httpd` - start/stop httpd service
-	`systemctl enable --now httpd` - enable and start httpd
-	`systemctl disable --now httpd` - disable and stop httpd
+	- `systemctl start/stop httpd` - start/stop httpd service
+	- `systemctl enable --now httpd` - enable and start httpd
+	- `systemctl disable --now httpd` - disable and stop httpd
 	
 - Configure systems to boot into a specific target automatically 
-	`systemctl list-units --type=target` - lists all targets on the system
-	`systemctl get-default` - lists the current default target
-	`systemctl set-default multi-user` - set default multi-user target
+	- `systemctl list-units --type=target` - lists all targets on the system
+	- `systemctl get-default` - lists the current default target
+	- `systemctl set-default multi-user` - set default multi-user target
 	
 - Configure time service clients 
-	`dnf install chrony -y` - install chrony package
-	`vi /etc/chrony.conf` and change the with pool/iburst to where you want to point it.
-	`server 169.254.169.254 iburst` - for example
-	`systemctl enable --now chronyd` - enable and start chronyd service
+	- `dnf install chrony -y` - install chrony package
+	- `vi /etc/chrony.conf` and change the with pool/iburst to where you want to point it.
+	- `server 169.254.169.254 iburst` - for example
+	- `systemctl enable --now chronyd` - enable and start chronyd service
 	
-	`chronyc sources -v` - list sources
-	`chronyc makestep` - sync the time
+	- `chronyc sources -v` - list sources
+	- `chronyc makestep` - sync the time
 
 - Install and update software packages from Red Hat Content Delivery Network, a remote repository, or from the local file system 
-	`vi /etc/yum.repos.d/local.repo` - create a new repo file and add below lines with valid info.
-	[local]
+	- `vi /etc/yum.repos.d/local.repo` - create a new repo file and add below lines with valid info.
+	```
+ 	[local]
 	name=local packages
 	baseurl=https://
 	enabled=1
 	gpgcheck=0
-	
-	`dnf clean all` - clean all cache
-	`dnf repolist --all` - list all repositories
+	```
+	- `dnf clean all` - clean all cache
+	- `dnf repolist --all` - list all repositories
 
 - Modify the system bootloader 
-	`vi /etc/default/grub` - file to modify the system bootloader
-	`grub2-mkconfig -o /boot/grub2/grub.cfg
+	- `vi /etc/default/grub` - file to modify the system bootloader
+	- `grub2-mkconfig -o /boot/grub2/grub.cfg
 
 ### Manage basic networking 
 - Configure IPv4 and IPv6 addresses 
-	`nmcli con show` - show connecitons
-	`nmcli con mod ens192 ipv4.method "manual" ipv4 "192.168.10.240/24" ipv4.dns "192.168.10.145,8.8.8.8" ipv4.dns-search "testhostname.com" ipv4.gateway "192.168.10.1" ipv4.may-fail "no"
-	`nmcli con mod ens192 ipv6.method "manual" ipv6 "2002:c0a8:a01:0:0:0:0:0164" ipv6.may-fail "yes"
-	`nmcli con down ens192` - bring connection ens192 down
-	`nmcli con up ens192` - bring connection ens192 up
+	- `nmcli con show` - show connections
+	- `nmcli con mod ens192 ipv4.method "manual" ipv4 "192.168.10.240/24" ipv4.dns "192.168.10.145,8.8.8.8" ipv4.dns-search "testhostname.com" ipv4.gateway "192.168.10.1" ipv4.may-fail "no"
+	- `nmcli con mod ens192 ipv6.method "manual" ipv6 "2002:c0a8:a01:0:0:0:0:0164" ipv6.may-fail "yes"
+	- `nmcli con down ens192` - bring connection ens192 down
+	- `nmcli con up ens192` - bring connection ens192 up
 	
-	`nmtui` - gui tool to setup network configuration
+	- `nmtui` - gui tool to setup network configuration
 	
 - Configure hostname resolution 
-	`hostnamectl set-hostname testhostname.com`
+	- `hostnamectl set-hostname testhostname.com`
 	
 - Configure network services to start automatically at boot 
 	`systemct enable --now NetworkManager`
 	
 - Restrict network access using firewall-cmd/firewalld
-	`firewall-cmd --add-service=mysql --permanent` - permanently add mysql service
-	`firewall-cmd --add-port=85/tcp --permanent` - permanently add port 85/tcp
-	`firewall-cmd --remove-port=85/tcp --permanent` - permanently remove port 85/tcp
-	`firewall-cmd --reload` - reload
-	`firewall-cmd --list-all` - lists active rules
-	`firewall-cmd --help` 
+	- `firewall-cmd --add-service=mysql --permanent` - permanently add mysql service
+	- `firewall-cmd --add-port=85/tcp --permanent` - permanently add port 85/tcp
+	- `firewall-cmd --remove-port=85/tcp --permanent` - permanently remove port 85/tcp
+	- `firewall-cmd --reload` - reload
+	- `firewall-cmd --list-all` - lists active rules
+	- `firewall-cmd --help` 
 	
 ### Manage users and groups 
 - Create, delete, and modify local user accounts 
-	`useradd/usermod/userdel`
-	`groupadd/groupmod/groupdel`
+	- `useradd/usermod/userdel`
+	- `groupadd/groupmod/groupdel`
 	
 - Change passwords and adjust password aging for local user accounts 
-	`passwd user` - change password for user
-	`chage -L user` shows password policy(expiration)
-	`chage user` - allows you to change password policy for that user
+	- `passwd user` - change password for user
+  	- `chage -L user` shows password policy(expiration)
+	- `chage user` - allows you to change password policy for that user
 	
 	To change defaults for all users:
-	passwd length - /etc/security/pwquality.conf
-	passwd expiration - /etc/login.defs
+	- passwd length - `/etc/security/pwquality.conf`
+	- passwd expiration - `/etc/login.defs`
 	
 - Create, delete, and modify local groups and group memberships 
-	`usermod -G group_name user` - add user to a new group
-	`usermod -g group_name user` - change primary group for user
-	`gpasswd -d user group` - remove user from a group
+	- `usermod -G group_name user` - add user to a new group
+	- `usermod -g group_name user` - change primary group for user
+	- `gpasswd -d user group` - remove user from a group
 
 - Configure privileged  access 
-	`visudo /etc/sudoers` 
+	- `visudo /etc/sudoers` 
 	Uncomment some aliases and add lines at the bottom. For example:
-	`%dba_admin ALL=SOFTWARE,SERVICES,PROCESSES` - dba_admin group should be able to run software, services, and processes
-	`%dba_managers ALL=(ALL) ALL` - dba_managers group should have priveledges to run everything
-	`%dba_intern ALL=MESSAGES` - dba_intern group should be able to check MESSAGES    
+	- `%dba_admin ALL=SOFTWARE,SERVICES,PROCESSES` - dba_admin group should be able to run software, services, and processes
+	- `%dba_managers ALL=(ALL) ALL` - dba_managers group should have priveledges to run everything
+	- `%dba_intern ALL=MESSAGES` - dba_intern group should be able to check MESSAGES    
 
 ### Manage security 
 - Configure firewall settings using firewall-cmd/firewalld 
-	already covered
+	- already covered
 	
 - Manage default file permissions 
-	UMASK - default value is 666
-	666 - 002(mask) = 664
-	`echo `umask 0027` >> ~/.bashrc` - will give a default permissions of 640
+	- UMASK - default value is 666
+	- 666 - 002(mask) = 664
+	- `echo `umask 0027` >> ~/.bashrc` - will give a default permissions of 640
 	
 	ACL - access control lists
-	`getfacl /home/docs` - show current acls on this directory/file
-	`setfacl --help`
+	- `getfacl /home/docs` - show current acls on this directory/file
+	- `setfacl --help`
 	
 	For more info about ACLs visit: https://www.redhat.com/sysadmin/linux-access-control-lists
 
-- Configure key-based authentication for SSH 
-	already covered
+- Configure key-based authentication for SSH
+  	- already covered
 	
 - Set enforcing and permissive modes for SELinux 
-	`getenforce` - check selinux current mode
-	`setenforce 0/1` - 0=permissive
+	- `getenforce` - check selinux current mode
+	- `setenforce 0/1` - 0=permissive
 					 - 1=enforcing
 					 
-	for persistent setting, modify /etc/selinux/config.
+	- for persistent settings, modify `/etc/selinux/config`.
 	
 - List and identify SELinux file and process context 
-	`ls -Z`
-	`ps aux Z`
+	- `ls -Z`
+	- `ps aux Z`
 	
 - Restore default file contexts 
-	`restorecon -Rv /web`
+	- `restorecon -Rv /web`
 	
 - Manage SELinux port labels 
-	`semanage port -l | grep http` - list all port labels for http
-	`semanage port -a -t http_port_t -p tcp 82` - set http_port_t label to port 82
+	- `semanage port -l | grep http` - list all port labels for http
+	- `semanage port -a -t http_port_t -p tcp 82` - set http_port_t label to port 82
 	
 - Use boolean settings to modify system SELinux settings
-	`getsebool -a | grep httpd_can_sendmail` - will print if this label is on/off
-	`setsebool -p httpd_can_sendmail on` - set this sebool label to on persistent
+	- `getsebool -a | grep httpd_can_sendmail` - will print if this label is on/off
+	- `setsebool -p httpd_can_sendmail on` - set this sebool label to on persistent
 
 - Diagnose and address routine SELinux policy violations 
-	`dnf install policycoreutils* setrouble*` - install help tools
-	`journalctl -u httpd` 
-	`grep httpd /var/log/messages | less`
-	`grep httpd /var/log/audit/audit.log | less`
+	- `dnf install policycoreutils* setrouble*` - install help tools
+	- `journalctl -u httpd` 
+	- `grep httpd /var/log/messages | less`
+	- `grep httpd /var/log/audit/audit.log | less`
 
 ### Manage containers 
 - Find and retrieve container images from a remote registry 
@@ -558,21 +560,21 @@ find /usr/share -type f -size -1M -exec cp{} /root/myfiles \;
 - Configure a container to start automatically as a systemd service 
 - Attach persistent storage to a container
 
-	`podman --help`
-	`podman login registry.access.redhat.com` - login to the registry
-	`podman search registry.access.redhat.com/ubi9` - search container images
-	`podman pull registry.access.redhat.com/ubi9/ubi:latest` - pull latest ubi container image
-	`podman inspect docker://registry.access.redhat.com/ubi9/ubi:latest | less` - inspect 
-	`podman run -it registry.access.redhat.com/ubi9/ubi:latest /bin/bash` - run a container(get a bash)
-	`podman ps --all` - list running containers
-	`podman rm <containerID>` - remove container
-	`podman rmi <url>` - remove container image
-	`podman build -t <tag_name> <url/containerfile>` - build a container from url or containerfile with a tag name
-	`podman run -d <tag_name>` - run a container in the background
-	`podman start <containerID>` - start container
-	`podman stop <containerID>` - stop container
-	`podman run -d -p 8000:8080 <url>` - run a container in the background, on local port 8000 and cointainer port 8080
-	`podman run -d -n web_count -p 8000:8080 -v ~/web_data:/var/www/html:Z <url>` - run a container in the background, on local port 8000 and cointainer port 8080 with persistent storage mounted to ~/web_data and container name web_count
+	- `podman --help`
+	- `podman login registry.access.redhat.com` - login to the registry
+	- `podman search registry.access.redhat.com/ubi9` - search container images
+	- `podman pull registry.access.redhat.com/ubi9/ubi:latest` - pull latest ubi container image
+	- `podman inspect docker://registry.access.redhat.com/ubi9/ubi:latest | less` - inspect 
+	- `podman run -it registry.access.redhat.com/ubi9/ubi:latest /bin/bash` - run a container(get a bash)
+	- `podman ps --all` - list running containers
+	- `podman rm <containerID>` - remove container
+	- `podman rmi <url>` - remove container image
+	- `podman build -t <tag_name> <url/containerfile>` - build a container from url or containerfile with a tag name
+	- `podman run -d <tag_name>` - run a container in the background
+	- `podman start <containerID>` - start container
+	- `podman stop <containerID>` - stop container
+	- `podman run -d -p 8000:8080 <url>` - run a container in the background, on local port 8000 and container port 8080
+	- `podman run -d -n web_count -p 8000:8080 -v ~/web_data:/var/www/html:Z <url>` - run a container in the background, on local port 8000 and container port 8080 with persistent storage mounted to ~/web_data and container name web_count
 	
 	For running a container as a systemd service, look at practive example.
 	
