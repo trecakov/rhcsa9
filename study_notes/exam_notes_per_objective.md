@@ -2,9 +2,9 @@
 
 ### Understand and use essential tools 
 - Access a shell prompt and issue commands with correct syntax 
-- Use input-output redirection (>, >>, |, 2>, etc.) 
-	'>' - redirect to a file
-	'>>' - append to a file
+- Use input-output redirection (>, >>, |, 2>, etc.)
+	- '>' - redirect to a file
+   	- '>>' - append to a file
 	'2>' - redirect stderr to a file
 	'2>>' - redirect stderr to a file and append
 	'2>&1' redirect stderr to stdout
