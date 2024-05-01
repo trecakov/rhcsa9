@@ -5,32 +5,32 @@
 - Use input-output redirection (>, >>, |, 2>, etc.)
 	- `>` - redirect to a file
    	- `>>` - append to a file
-	`2>` - redirect stderr to a file
-	`2>>` - redirect stderr to a file and append
-	`2>&1` redirect stderr to stdout
-	`/dev/null` - data sent to /dev/null is lost
+	- `2>` - redirect stderr to a file
+	- `2>>` - redirect stderr to a file and append
+	- `2>&1` redirect stderr to stdout
+	- `/dev/null` - data sent to /dev/null is lost
 	
 - Use grep and regular expressions to analyze text 
-	`grep --help` - help on how to use the tool and its flags/options
-	`grep patern filename`
-	`-i` - case insensitive
-	`-v` - not containing the pattern
+	- `grep --help` - help on how to use the tool and its flags/options
+	- `grep pattern filename`
+	- `-i` - case insensitive
+	- `-v` - not containing the pattern
 	
 	examples:
-	`grep "^ssl" file.txt` - search for lines in file.txt that are starting with `ssl`
-	`grep "ssl$" file.txt` - search for lines in file.txt that are ending with `ssl`
-	`grep "[s|S]sl" file.txt` - search for lines in file.txt that are starting with lower or upper letter `s` and match the pattern `ssl`
-	`grep "^[abc]" file.txt` - search for characters in file.txt that are not contained in brackets
-	`grep "^$" file.txt` - search for empty lines in file.txt
-	`grep -v "^#" file.txt` - search for uncommented lines in file.txt
+	- `grep "^ssl" file.txt` - search for lines in file.txt that start with `ssl`
+	- `grep "ssl$" file.txt` - search for lines in file.txt that end with `ssl`
+	- `grep "[s|S]sl" file.txt` - search for lines in file.txt that start with lower or upper letter `s` and match the pattern `ssl`
+	- `grep "^[abc]" file.txt` - search for characters in file.txt that are not contained in brackets
+	- `grep "^$" file.txt` - search for empty lines in file.txt
+	- `grep -v "^#" file.txt` - search for uncommented lines in file.txt
 	
 - Access remote systems using SSH 
-	`ssh-keygen` - generate a ssh key
-	`ssh-copy-id username@hostname` - copy ssh key to hostname server under .ssh directory of username
-	`ssh username@hostname` - connect via ssh protocol
-	`scp username@hostame:/path/to/file.txt /location/on/local/machine` - secure copy from remote machine to a local server
-	`scp /location/on/local/machine/file.txt username@hostame:/location/on/remote/machine` - secure copy from local machine to a remote server
-	`sftp username@hostname` - sftp protocol, type `?` after connection for help
+	- `ssh-keygen` - generate a ssh key
+	- `ssh-copy-id username@hostname` - copy ssh key to hostname server under .ssh directory of username
+	- `ssh username@hostname` - connect via ssh protocol
+	- `scp username@hostame:/path/to/file.txt /location/on/local/machine` - secure copy from remote machine to a local server
+	- `scp /location/on/local/machine/file.txt username@hostame:/location/on/remote/machine` - secure copy from local machine to a remote server
+	- `sftp username@hostname` - sftp protocol, type `?` after connection for help
 	
 	For help on how to use these tools and their flags, type:
 	`ssh-keygen --help` 
