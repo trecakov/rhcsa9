@@ -140,8 +140,9 @@
 	executre	x  	 	1
 	
 	user(u)		group(g)	other(o)
-	rwx 		rwx			rwx
-```	
+	rwx 		rwx		rwx
+```
+
 	For more info visit: https://www.redhat.com/sysadmin/manage-permissions
 	
 
@@ -219,22 +220,22 @@ find /usr/share -type f -size -1M -exec cp{} /root/myfiles \;
 
 ### Operate running systems
 - Boot, reboot, and shut down a system normally 
-	`reboot` - reboot
-	`poweroff` - shut down
-	`shutdown -h now` - shut down
+	- `reboot` - reboot
+	- `poweroff` - shut down
+	- `shutdown -h now` - shut down
 	
 - Boot systems into different targets manually 
-	From maintanance mode add line `systemd.unit=multi-user.target` and press ctrl+x to resume boot process.
+	- From maintenance mode add line `systemd.unit=multi-user.target` and press ctrl+x to resume the boot process.
 	or
-	from terminal type `systemctl set-default multi-user`
+	-from terminal type `systemctl set-default multi-user`
 	
-	`systemctl list-units --type=target` - lists all targets on the system
-	`systemctl get-default` - lists the current default target
+	- `systemctl list-units --type=target` - lists all targets on the system
+	- `systemctl get-default` - lists the current default target
 
 - Interrupt the boot process in order to gain access to a system 
 	1. When you reboot the server and grub2 boot screen comes up, press `e`
 	2. Go to the end of the line that starts with `linux` and add `rd.break`
-	3. Press Ctrl+x
+	3. Press `Ctrl+x`
 	4. `mount -o rw,remount /sysroot`
 	5. chroot /sysroot
 	6. `passwd root`
@@ -243,103 +244,103 @@ find /usr/share -type f -size -1M -exec cp{} /root/myfiles \;
 	9. `exit`
 	
 	These steps work for most RHEL versions besides 9.0. So if you are trying to do this on RHEL 9.0 there are 2 solutions.
-	1. When you reboot the server and grub2 boot screen comes up, move with down arrow to the rescue kernel and press `e`. Then follow the rest of above steps.
+	1. When you reboot the server and grub2 boot screen comes up, move down arrow to the rescue kernel and press `e`. Then follow the rest of above steps.
 	2. Second solutions:
 		1. When you reboot the server and grub2 boot screen comes up, press `e`
 		2. Go to the end of the line that starts with `linux` and add `init=/bin/bash`, also change ro -> rw on the same line.
-		3. Press Ctrl+x
+		3. Press `Ctrl+x`
 		4. `passwd root`
 		5. `touch /.autorelabel`
 		6. `/usr/sbin/reboot -f`
 
 - Identify CPU/memory intensive processes and kill processes 
-	Use `top` tool to view CPU/memory intensive processes and kill processes 
-	`M` - to sort by Memory usage
-	`P` - to sort by CPU/memory
-	`U` - to sort by user
-	`K` - to kill the process
-	`R` - to renice the process
+	- Use `top` tool to view CPU/memory intensive processes and kill processes 
+	- `M` - to sort by Memory usage
+	- `P` - to sort by CPU/memory
+	- `U` - to sort by user
+	- `K` - to kill the process
+	- `R` - to renice the process
 	
 - Adjust process scheduling 
-	`chrt --help` - this will give you enough info on how change priority/policy
+	- `chrt --help` - this will give you enough info on how change priority/policy
 	
 - Manage tuning profiles 
-	`dnf install tuned -y` - install tuned packages
-	`systemctl enable --now tuned` - enable and start systemd tuned service
-	`tuned-adm --help`
-	`tuned-adm active` - list an active profile
-	`tuned-adm profile` - lists all profiles
-	`tuned-adm recommend` - lists recommended profile
-	`tuned-adm profile virtual-guest` - changes active profile to virtual-guest
-	`tuned-adm profile virtual-guest powersave` - changes active profile to multiprofile virtual-guest and powersave
+	- `dnf install tuned -y` - install tuned packages
+	- `systemctl enable --now tuned` - enable and start systemd tuned service
+	- `tuned-adm --help`
+	- `tuned-adm active` - list an active profile
+	- `tuned-adm profile` - lists all profiles
+	- `tuned-adm recommend` - lists recommended profile
+	- `tuned-adm profile virtual-guest` - changes active profile to virtual-guest
+	- `tuned-adm profile virtual-guest powersave` - changes active profile to multiprofile virtual-guest and powersave
 	
 	To configure dynamic tuning profile:
 	1. change a dynamic_tuning value to 1 in /etc/tuned/tuned-main.conf
 	2. restart the tuned service
 	
 - Locate and interpret system log files and journals 
-	`journalctl --help`
-	`journalctl -u chronyd` - lists anything related to unit chronyd 
-	`journalctl -g systemd` - greps journals for systemd
+	- `journalctl --help`
+	- `journalctl -u chronyd` - lists anything related to unit chronyd 
+	- `journalctl -g systemd` - greps journals for systemd
 	
 - Preserve system journals 
-	1. create a directory /var/log/journal
-	2. modify storage variable in /etc/systemd/journald.conf to auto
+	1. create a directory `/var/log/journal`
+	2. modify storage variable in `/etc/systemd/journald.conf` to auto
 	3. `journalctl --flush`
 	
 - Start, stop, and check the status of network services 
-	`systemctl --help`
-	`systemctl start/stop/restart/status NetworkManager`
+	- `systemctl --help`
+	- `systemctl start/stop/restart/status NetworkManager`
 	
 - Securely transfer files between systems 
-	`scp username@hostame:/path/to/file.txt /location/on/local/machine` - secure copy from remote machine to a local server
-	`scp /location/on/local/machine/file.txt username@hostame:/location/on/remote/machine` - secure copy from local machine to a remote server
-	`sftp username@hostname` - sftp protocol, type `?` after connection for help
-	`scp --help` 
-	`sftp --help`
+	- `scp username@hostame:/path/to/file.txt /location/on/local/machine` - secure copy from remote machine to a local server
+	- `scp /location/on/local/machine/file.txt username@hostame:/location/on/remote/machine` - secure copy from local machine to a remote server
+	- `sftp username@hostname` - sftp protocol, type `?` after connection for help
+	- `scp --help` 
+	- `sftp --help`
 
 ### Configure local storage 
 - List, create, and delete partitions on GPT/MBR disks 
-	fdisk(MBR) - used to create a master boot record-based partitions. Only 4 MBR partitions are able to be created on the system.
-	gdisk(GPT) - used to create GPT partitions. Unlimited number of GPT partitons on the system.
+	- fdisk(MBR) - used to create a master boot record-based partitions. Only 4 MBR partitions are able to be created on the system.
+	- gdisk(GPT) - used to create GPT partitions. Unlimited number of GPT partitons on the system.
 	
-	`fdisk -l` - lists all disks with a lot of info
-	`lsblk -f` - info about disks, uuids, mountpoints, and fstypes.
+	- `fdisk -l` - lists all disks with a lot of info
+	- `lsblk -f` - info about disks, uuids, mountpoints, and fstypes.
 	
 	Creating gdisk/fdisk partition:
-	`gdisk/fdisk /dev/sdb`
-	`?` - for help
-	`n` - new partition
-	`t` - change partition type
-	`L` - list partition hex
-	`p` - print to double check
-	`w` - write
+	- `gdisk/fdisk /dev/sdb`
+	- `?` - for help
+	- `n` - new partition
+	- `t` - change partition type
+	- `L` - list partition hex
+	- `p` - print to double check
+	- `w` - write
 	
-	Once partition has been created, we need to create filesystem(xfs,ext4,vfat), directory and mount it. If this mount needs to be persistent, add it to fstab.
-	`mkfs.ext4 /dev/sdb1`
-	`mkdir /web_project`
-	`mount /dev/sdb1 /web_project`
-	`echo "/dev/sdb1 /web_project ext4 defaults 0 0" >> /etc/fstab`
+	Once the partition has been created, we need to create a filesystem(xfs,ext4,vfat), directory and mount it. If this mount needs to be persistent, add it to fstab.
+	- `mkfs.ext4 /dev/sdb1`
+	- `mkdir /web_project`
+	- `mount /dev/sdb1 /web_project`
+	- `echo "/dev/sdb1 /web_project ext4 defaults 0 0" >> /etc/fstab`
 	
 - Create and remove physical volumes 
-	`pvcreate /dev/sd*` - create a physical volume
-	`pvremove /dev/sd*` - remove a physical volume
+	- `pvcreate /dev/sd*` - create a physical volume
+	- `pvremove /dev/sd*` - remove a physical volume
 	
 - Assign physical volumes to volume groups 
-	`vgcreate db_storage /dev/sd*`
-	`vgremove -f db_storage`
+	- `vgcreate db_storage /dev/sd*`
+	- `vgremove -f db_storage`
 	
 - Create and delete logical volumes 
-	`lvcreate -L 2G -n database db_storage` - creating a 2G in size logical volume named database, assigning db_storage volume group.
-	`lvremove /dev/mapper/db_storate-database` - removing logical volume
+	- `lvcreate -L 2G -n database db_storage` - creating a 2G in size logical volume named database, assigning db_storage volume group.
+	- `lvremove /dev/mapper/db_storate-database` - removing logical volume
 	
 - Configure systems to mount file systems at boot by universally unique ID (UUID) or label 
-	Add something like this to /etc/fstab:
-	`UUID=fe7d3d5a-7616-4f4e-9156-dbce80ec058d       /mnt/test   xfs     defaults        0       0`
+	- Add something like this to `/etc/fstab`:
+	- `UUID=fe7d3d5a-7616-4f4e-9156-dbce80ec058d       /mnt/test   xfs     defaults        0       0`
 	
 - Add new partitions and logical volumes, and swap to a system non-destructively 
-	Extending swap by creating a fdisk partition:
-	`fdisk /dev/sdb`
+	- Extending swap by creating a fdisk partition:
+	- `fdisk /dev/sdb`
 	 1. `n` - new partition
 	 2. Enter for defaults
 	 3. `t` - change partition type
